@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Screensaver</title>
+  <style>
+    canvas {
+      background-color: black;
+    }
+
+  </style>
+</head>
+
+<body>
+  <img id="red" hidden src="red.png">
+  <img id="orange" hidden src="orange.png">
+  <img id="yellow" hidden src="yellow.png">
+  <img id="green" hidden src="green.png">
+  <img id="cyan" hidden src="cyan.png">
+  <img id="blue" hidden src="blue.png">
+  <img id="purple" hidden src="purple.png">
+  <img id="pink" hidden src="pink.png">
+  <img id="gold" hidden src="golden.png">
+  <img id="void" hidden src="void.png">
+  <img id="retro" hidden src="retro.png">
+  <img id="memory" hidden src="memory.png">
+  <img id="space" hidden src="space.png">
+  <img id="background" hidden src="black.png">
+  <canvas id="canvasTime" width="1695" height="767" style="border:1px solid #000000;"></canvas>
+</body>
+
+</html>
+<script>
+  window.onload = function () {
+
+    var c = document.getElementById("canvasTime");
+    var ctx = c.getContext("2d");
+
+
+    var xPosition = []
+    var yPosition = []
+    var xDirection = []
+    var yDirection = []
+    var listOfImages = [document.getElementById("red"), document.getElementById("orange"), document.getElementById("yellow"), document.getElementById("green"), document.getElementById("cyan"), document.getElementById("blue"), document.getElementById("purple"), document.getElementById("pink"), document.getElementById("gold"), document.getElementById("void"), document.getElementById("retro"), document.getElementById("memory"), document.getElementById("space")]
+    setInterval(update, 15)
+    var boxesImage = []
+
+    for (let i = 0; i < 100; i++) {
+      xPosition[i] = Math.random() * 1645
+      yPosition[i] = Math.random() * 717
+      xDirection[i] = Math.random() * 16 - 8
+      yDirection[i] = Math.random() * 16 - 8
+      boxesImage[i] = listOfImages[Math.floor(Math.random() * 13)]
+    }
+
+
+    function update() {
+      ctx.clearRect(0, 0, 2147483647, 2147483647)
+      for (let i = 0; i < xPosition.length; i++) {
+        ctx.drawImage(boxesImage[i], xPosition[i], yPosition[i], 50, 50)
+        xPosition[i] = xPosition[i] + xDirection[i]
+        yPosition[i] = yPosition[i] + yDirection[i]
+        if (xPosition[i] >= 1645) {
+          xDirection[i] = -xDirection[i]
+        }
+        if (xPosition[i] <= 0) {
+          xDirection[i] = -xDirection[i]
+        }
+        if (yPosition[i] >= 717) {
+          yDirection[i] = -yDirection[i]
+        }
+
+        if (yPosition[i] <= 0) {
+          yDirection[i] = -yDirection[i]
+        }
+      }
+
+    }
+  }
+</script>

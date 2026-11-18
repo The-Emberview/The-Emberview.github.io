@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <img id="Background" hidden src="Background.png">
+  <img id="Tree1" hidden src="Tree1.png">
+  <img id="Retro" hidden src="Retro.png">
+  <img id="Threat1" hidden src="Threat1.png">
+  <img id="Foreground" hidden src="Foreground.png">
+  <img id="Body" hidden src="Body.png">
+  <img id="HandLeft" hidden src="Hand left.png">
+  <img id="HandRight" hidden src="Hand right.png">
+  <img id="Trail3" hidden src="Trail 3.png">
+  <img id="Trail2" hidden src="Trail 2.png">
+  <img id="Trail1" hidden src="Trail 1.png">
+  <img id="Death" hidden src="game over.png">
+  <canvas id="myCanvas" width="1695" height="767" style="border:1px solid #000000;"></canvas>
+</body>
+
+</html>
+<script>
+  window.onload = function () {
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+    const Background = document.getElementById("Background");
+    const Tree1 = document.getElementById("Tree1");
+    const Threat1 = document.getElementById("Threat1");
+    const Retro = document.getElementById("Retro");
+    const Foreground = document.getElementById("Foreground");
+    const Body = document.getElementById("Body");
+    const HandLeft = document.getElementById("HandLeft");
+    const HandRight = document.getElementById("HandRight");
+    const Trail3 = document.getElementById("Trail3");
+    const Trail2 = document.getElementById("Trail2");
+    const Trail1 = document.getElementById("Trail1");
+    const Dead = document.getElementById("Death");
+    let TreeX = 1400
+    let ThreatX = 1400
+    let ForegroundX1 = 0
+    let ForegroundX2 = 1695
+    let BackgroundX1 = 0
+    let BackgroundX2 = 1695
+    let RetroY = 635.5
+    let RetroVelocity = 0
+    let Living = true
+    let change = 0
+    document.addEventListener("keydown", jump)
+
+    setInterval(run, 10)
+
+    function jump() {
+      if (RetroY >= 635.5) {
+        RetroVelocity = -2.75
+      }
+    }
+    function run() {
+      ctx.clearRect(0, 0, 1695, 767)
+      BackgroundX1 = BackgroundX1 - 0.1
+      BackgroundX2 = BackgroundX2 - 0.1
+      ctx.drawImage(Background, BackgroundX1, 0, 1695, 767);
+      ctx.drawImage(Background, BackgroundX2, 0, 1695, 767);
+      TreeX = TreeX - 0.5
+      ctx.drawImage(Tree1, TreeX, 490, 200, 200);
+      RetroVelocity = RetroVelocity + 0.05
+      RetroY = RetroY + RetroVelocity
+      if (Living === true) {
+        ctx.drawImage(Retro, 200, RetroY, 50, 50);
+      }
+      ThreatX = ThreatX - 2
+      ctx.drawImage(Threat1, ThreatX, 575, 200, 200);
+      ForegroundX1 = ForegroundX1 - 2
+      ForegroundX2 = ForegroundX2 - 2
+      ctx.drawImage(Foreground, ForegroundX1, 235, 1696, 550);
+      ctx.drawImage(Foreground, ForegroundX2, 235, 1696, 550);
+      change = change + 0.05
+      ctx.drawImage(Trail3, 600, -115 + Math.sin(change - 3) * 10, 650, 650);
+      ctx.drawImage(Trail2, 650, -125 + Math.sin(change - 2) * 10, 650, 750);
+      ctx.drawImage(Trail1, 900, -125 + Math.sin(change - 1) * 10, 650, 650);
+      ctx.drawImage(Body, 1100, -100 + Math.sin(change) * 10, 650, 650);
+      ctx.drawImage(HandRight, 1050 + Math.cos(change) * 3, 75 + Math.sin(1.5 * change) * 3, 500, 500);
+      ctx.drawImage(HandLeft, 1225 + Math.cos(change) * 3, 125 + Math.sin(1.5 * change) * 3, 500, 500);
+      if (Living === false) {
+        ctx.drawImage(Dead, 0, 0, 1695, 767);
+      }
+      if (ForegroundX1 <= -1695) {
+        ForegroundX1 = 1695
+      }
+      if (ForegroundX2 <= -1695) {
+        ForegroundX2 = 1695
+      }
+      if (BackgroundX1 <= -1695) {
+        BackgroundX1 = 1695
+      }
+      if (BackgroundX2 <= -1695) {
+        BackgroundX2 = 1695
+      }
+      if (ThreatX <= -250) {
+        ThreatX = 1695
+      }
+      if (TreeX <= -250) {
+        TreeX = 1695
+      }
+      if (RetroY >= 635.5) {
+        RetroVelocity = 0
+        RetroY = 635.5
+      }
+      if (RetroY >= 600) {
+        if (ThreatX <= 175) {
+          if (ThreatX >= 125) {
+            Living = false
+          }
+        }
+      }
+    }
+  }
+</script>

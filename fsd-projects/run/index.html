@@ -49,7 +49,11 @@
     let RetroY = 635.5
     let RetroVelocity = 0
     let Living = true
-    let change = 0
+    let Change = 0
+    let Difficulty = 0.0001
+    let BackgroundVelocity = -0.1
+    let TreeVelocity = -0.5
+    let GroundVelocity = -2
     document.addEventListener("keydown", jump)
 
     setInterval(run, 10)
@@ -61,30 +65,33 @@
     }
     function run() {
       ctx.clearRect(0, 0, 1695, 767)
-      BackgroundX1 = BackgroundX1 - 0.1
-      BackgroundX2 = BackgroundX2 - 0.1
-      ctx.drawImage(Background, BackgroundX1, 0, 1695, 767);
-      ctx.drawImage(Background, BackgroundX2, 0, 1695, 767);
-      TreeX = TreeX - 0.5
+      BackgroundVelocity = BackgroundVelocity - Difficulty
+      BackgroundX1 = BackgroundX1 + BackgroundVelocity
+      BackgroundX2 = BackgroundX2 + BackgroundVelocity
+      ctx.drawImage(Background, BackgroundX1, 0, 1696, 767);
+      ctx.drawImage(Background, BackgroundX2, 0, 1696, 767);
+      TreeVelocity = TreeVelocity - Difficulty
+      TreeX = TreeX + TreeVelocity
       ctx.drawImage(Tree1, TreeX, 490, 200, 200);
       RetroVelocity = RetroVelocity + 0.05
       RetroY = RetroY + RetroVelocity
       if (Living === true) {
         ctx.drawImage(Retro, 200, RetroY, 50, 50);
       }
-      ThreatX = ThreatX - 2
+      GroundVelocity = GroundVelocity - Difficulty
+      ThreatX = ThreatX + GroundVelocity
       ctx.drawImage(Threat1, ThreatX, 575, 200, 200);
-      ForegroundX1 = ForegroundX1 - 2
-      ForegroundX2 = ForegroundX2 - 2
+      ForegroundX1 = ForegroundX1 + GroundVelocity
+      ForegroundX2 = ForegroundX2 + GroundVelocity
       ctx.drawImage(Foreground, ForegroundX1, 235, 1696, 550);
       ctx.drawImage(Foreground, ForegroundX2, 235, 1696, 550);
-      change = change + 0.05
-      ctx.drawImage(Trail3, 600, -115 + Math.sin(change - 3) * 10, 650, 650);
-      ctx.drawImage(Trail2, 650, -125 + Math.sin(change - 2) * 10, 650, 750);
-      ctx.drawImage(Trail1, 900, -125 + Math.sin(change - 1) * 10, 650, 650);
-      ctx.drawImage(Body, 1100, -100 + Math.sin(change) * 10, 650, 650);
-      ctx.drawImage(HandRight, 1050 + Math.cos(change) * 3, 75 + Math.sin(1.5 * change) * 3, 500, 500);
-      ctx.drawImage(HandLeft, 1225 + Math.cos(change) * 3, 125 + Math.sin(1.5 * change) * 3, 500, 500);
+      Change = Change + 0.05
+      ctx.drawImage(Trail3, 600, -115 + Math.sin(Change - 3) * 10, 650, 650);
+      ctx.drawImage(Trail2, 650, -125 + Math.sin(Change - 2) * 10, 650, 750);
+      ctx.drawImage(Trail1, 900, -125 + Math.sin(Change - 1) * 10, 650, 650);
+      ctx.drawImage(Body, 1100, -100 + Math.sin(Change) * 10, 650, 650);
+      ctx.drawImage(HandRight, 1050 + Math.cos(Change) * 3, 75 + Math.sin(1.5 * Change) * 3, 500, 500);
+      ctx.drawImage(HandLeft, 1225 + Math.cos(Change) * 3, 125 + Math.sin(1.5 * Change) * 3, 500, 500);
       if (Living === false) {
         ctx.drawImage(Dead, 0, 0, 1695, 767);
       }

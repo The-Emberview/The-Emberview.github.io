@@ -10,8 +10,19 @@
 <body>
   <img id="Background" hidden src="Background.png">
   <img id="Tree1" hidden src="Tree1.png">
+  <img id="Tree2" hidden src="Tree2.png">
+  <img id="Tree3" hidden src="Tree3.png">
+  <img id="Tree4" hidden src="Tree4.png">
+  <img id="Tree5" hidden src="Tree5.png">
+  <img id="Tree6" hidden src="Tree6.png">
+  <img id="Tree7" hidden src="Tree7.png">
   <img id="Retro" hidden src="Retro.png">
-  <img id="Threat1" hidden src="Threat1.png">
+  <img id="Stone1" hidden src="Stone1.png">
+  <img id="Stone2" hidden src="Stone2.png">
+  <img id="Stone3" hidden src="Stone3.png">
+  <img id="Stone4" hidden src="Stone4.png">
+  <img id="Stone5" hidden src="Stone5.png">
+  <img id="Stone6" hidden src="Stone6.png">
   <img id="Foreground" hidden src="Foreground.png">
   <img id="Body" hidden src="Body.png">
   <img id="HandLeft" hidden src="Hand left.png">
@@ -30,7 +41,12 @@
     const ctx = canvas.getContext("2d");
     const Background = document.getElementById("Background");
     const Tree1 = document.getElementById("Tree1");
-    const Threat1 = document.getElementById("Threat1");
+    const Tree2 = document.getElementById("Tree2");
+    const Tree3 = document.getElementById("Tree3");
+    const Tree4 = document.getElementById("Tree4");
+    const Tree5 = document.getElementById("Tree5");
+    const Tree6 = document.getElementById("Tree6");
+    const Tree7 = document.getElementById("Tree7");
     const Retro = document.getElementById("Retro");
     const Foreground = document.getElementById("Foreground");
     const Body = document.getElementById("Body");
@@ -40,8 +56,18 @@
     const Trail2 = document.getElementById("Trail2");
     const Trail1 = document.getElementById("Trail1");
     const Dead = document.getElementById("Death");
-    let TreeX = 1400
-    let ThreatX = 1400
+    let Threat = [document.getElementById("Stone1"), document.getElementById("Stone2"), document.getElementById("Stone3"), document.getElementById("Stone4"), document.getElementById("Stone5"), document.getElementById("Stone6")]
+    let WhichStone = Math.floor(Math.random() * Threat.length)
+    let WhichStone2 = Math.floor(Math.random() * Threat.length)
+    let TreeX1 = 1642
+    let TreeX2 = 1400
+    let TreeX3 = 1158
+    let TreeX4 = 916
+    let TreeX5 = 674
+    let TreeX6 = 432
+    let TreeX7 = 190
+    let ThreatX = 1695
+    let ThreatX2 = 700
     let ForegroundX1 = 0
     let ForegroundX2 = 1695
     let BackgroundX1 = 0
@@ -50,10 +76,11 @@
     let RetroVelocity = 0
     let Living = true
     let Change = 0
-    let Difficulty = 0.0001
+    let Difficulty = 0.001
     let BackgroundVelocity = -0.1
     let TreeVelocity = -0.5
     let GroundVelocity = -2
+    let Opacity = 0.000005
     document.addEventListener("keydown", jump)
 
     setInterval(run, 10)
@@ -71,8 +98,19 @@
       ctx.drawImage(Background, BackgroundX1, 0, 1696, 767);
       ctx.drawImage(Background, BackgroundX2, 0, 1696, 767);
       TreeVelocity = TreeVelocity - Difficulty
-      TreeX = TreeX + TreeVelocity
-      ctx.drawImage(Tree1, TreeX, 490, 200, 200);
+      TreeX1 = TreeX1 + TreeVelocity
+      TreeX2 = TreeX2 + TreeVelocity
+      TreeX3 = TreeX3 + TreeVelocity
+      TreeX4 = TreeX4 + TreeVelocity
+      TreeX5 = TreeX5 + TreeVelocity
+      TreeX6 = TreeX6 + TreeVelocity
+      TreeX7 = TreeX7 + TreeVelocity
+      ctx.drawImage(Tree1, TreeX1, 465, 225, 225);
+      ctx.drawImage(Tree2, TreeX2, 465, 225, 225);
+      ctx.drawImage(Tree4, TreeX4, 465, 225, 225);
+      ctx.drawImage(Tree5, TreeX5, 465, 225, 225);
+      ctx.drawImage(Tree6, TreeX6, 465, 225, 225);
+      ctx.drawImage(Tree7, TreeX7, 465, 225, 225);
       RetroVelocity = RetroVelocity + 0.05
       RetroY = RetroY + RetroVelocity
       if (Living === true) {
@@ -80,7 +118,9 @@
       }
       GroundVelocity = GroundVelocity - Difficulty
       ThreatX = ThreatX + GroundVelocity
-      ctx.drawImage(Threat1, ThreatX, 575, 200, 200);
+      ThreatX2 = ThreatX2 + GroundVelocity
+      ctx.drawImage(Threat[WhichStone], ThreatX, 575, 200, 200);
+      ctx.drawImage(Threat[WhichStone2], ThreatX2, 575, 200, 200);
       ForegroundX1 = ForegroundX1 + GroundVelocity
       ForegroundX2 = ForegroundX2 + GroundVelocity
       ctx.drawImage(Foreground, ForegroundX1, 235, 1696, 550);
@@ -93,7 +133,10 @@
       ctx.drawImage(HandRight, 1050 + Math.cos(Change) * 3, 75 + Math.sin(1.5 * Change) * 3, 500, 500);
       ctx.drawImage(HandLeft, 1225 + Math.cos(Change) * 3, 125 + Math.sin(1.5 * Change) * 3, 500, 500);
       if (Living === false) {
+        Opacity = Opacity * 1.025
+        ctx.globalAlpha = Opacity
         ctx.drawImage(Dead, 0, 0, 1695, 767);
+        ctx.globalAlpha = 1
       }
       if (ForegroundX1 <= -1695) {
         ForegroundX1 = 1695
@@ -109,9 +152,32 @@
       }
       if (ThreatX <= -250) {
         ThreatX = 1695
+        WhichStone = Math.floor(Math.random() * Threat.length)
       }
-      if (TreeX <= -250) {
-        TreeX = 1695
+      if (ThreatX2 <= -250) {
+        ThreatX2 = 1695
+        WhichStone2 = Math.floor(Math.random() * Threat.length)
+      }
+      if (TreeX1 <= -250) {
+        TreeX1 = 1695
+      }
+      if (TreeX2 <= -250) {
+        TreeX2 = 1695
+      }
+      if (TreeX3 <= -250) {
+        TreeX3 = 1695
+      }
+      if (TreeX4 <= -250) {
+        TreeX4 = 1695
+      }
+      if (TreeX5 <= -250) {
+        TreeX5 = 1695
+      }
+      if (TreeX6 <= -250) {
+        TreeX6 = 1695
+      }
+      if (TreeX7 <= -250) {
+        TreeX7 = 1695
       }
       if (RetroY >= 635.5) {
         RetroVelocity = 0
@@ -120,6 +186,13 @@
       if (RetroY >= 600) {
         if (ThreatX <= 175) {
           if (ThreatX >= 125) {
+            Living = false
+          }
+        }
+      }
+      if (RetroY >= 600) {
+        if (ThreatX2 <= 175) {
+          if (ThreatX2 >= 125) {
             Living = false
           }
         }
